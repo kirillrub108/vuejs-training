@@ -1,63 +1,63 @@
-<script setup>
+<script>
+export default {
+    name: 'IndexComponent',
+    data() {
+        return {
+            people: [],
+            editPersonId: null,
+            name: null,
+            age: null,
+            job: null,
+        }
+    },
 
-import {onMounted, ref, defineExpose, computed} from "vue";
-import axios from "axios";
+    mounted() {
+        this.getPeople()
+    },
 
-const people = ref([])
+    methods: {
+        getPeople() {
+            axios.get('/api/people')
+                .then( res => {
+                    this.people = res.data
+                })
+        },
 
-const editPersonId = ref(null)
-const name = ref()
-const age = ref()
-const job = ref()
+        updatePerson(id) {
+            axios.patch(`/api/people/${id}`,
+                {
+                    name: this.name,
+                    age: this.age,
+                    job: this.job
+                })
+                .then( res => {
+                    this.getPeople()
+                })
+        },
 
-const indexElement = ref(null)
+        deletePerson(id) {
+            axios.delete(`/api/people/${id}`)
+                .then(res => {
+                    this.getPeople()
+                })
+        },
 
+        changeEditPersonId(id, name, age, job) {
+            this.editPersonId = id
+            this.name = name
+            this.age = age
+            this.job = job
+        },
 
+        isEdit(id) {
+            return this.editPersonId === id
+        },
 
-onMounted(getPeople)
-async function getPeople() {
-    await axios.get('/api/people')
-        .then( res => {
-            people.value = res.data
-        })
+        indexLog() {
+            console.log('this is IndexComponent!');
+        }
+    }
 }
-
-async function updatePerson(id) {
-    editPersonId.value = null
-    await axios.patch(`/api/people/${id}`,
-        {
-            name: name.value,
-            age: age.value,
-            job: job.value
-        })
-        .then( res => {
-            getPeople()
-        })
-}
-
-async function deletePerson(id) {
-    await axios.delete(`/api/people/${id}`)
-        .then( res => {
-            getPeople()
-        })
-}
-
-const changeEditPersonId = (id, personName, personAge, personJob) => {
-    editPersonId.value = id
-    name.value = personName;
-    age.value = personAge;
-    job.value = personJob;
-}
-
-const isEdit = (id) => {
-    return editPersonId.value === id
-}
-
-const indexLog = () => {
-    console.log('this is indexcomponent!');
-};
-
-defineExpose({ indexElement, indexLog })
 
 </script>
 

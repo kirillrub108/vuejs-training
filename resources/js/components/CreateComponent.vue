@@ -1,12 +1,24 @@
 <script>
+import SomeComponent from "@/components/SomeComponent.vue";
+
 export default {
     name: 'CreateComponent',
+
     data() {
         return {
             name: null,
             age: null,
             job: null,
+            obj: {
+                color: 'black',
+                number: 5,
+                isPublished: true
+            }
         }
+    },
+
+    mounted() {
+        this.$parent.$refs.index.indexLog()
     },
 
     methods: {
@@ -20,9 +32,13 @@ export default {
                 this.name = null
                 this.age = null
                 this.job = null
-                console.log(res);
+                this.$parent.$refs.index.getPeople()
             })
         }
+    },
+
+    components: {
+        SomeComponent
     }
 }
 
@@ -42,6 +58,7 @@ export default {
         <div class="mb-3">
             <input @click.prevent="addPerson" class="btn btn-primary" id="job" value="Добавить">
         </div>
+        <SomeComponent :obj="obj"></SomeComponent>
     </div>
 </template>
 

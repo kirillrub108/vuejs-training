@@ -17,9 +17,8 @@
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
 </head>
 <body>
-    <div id="app" class="p-5">
-        <post-component> </post-component>
-
-
+<div id="app" class="p-5">
+    <post-component></post-component>
+</div>
 </body>
 </html>

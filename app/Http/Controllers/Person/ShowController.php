@@ -7,11 +7,10 @@ use App\Http\Requests\Person\StoreRequest;
 use App\Http\Resources\Person\PersonResource;
 use App\Models\Person;
 
-class IndexController extends Controller
+class ShowController extends Controller
 {
-    public function __invoke()
+    public function __invoke(Person $person)
     {
-        $people = Person::all();
-        return PersonResource::collection($people);
+        return new PersonResource($person);
     }
 }

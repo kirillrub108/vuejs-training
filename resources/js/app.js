@@ -5,7 +5,9 @@
  */
 
 import './bootstrap';
+import store from './store'
 import { createApp } from 'vue';
+import router from "@/router.js";
 
 /**
  * Next, we will create a fresh Vue application instance. You may then begin
@@ -15,9 +17,11 @@ import { createApp } from 'vue';
 
 const app = createApp({});
 
+import Index from "@/components/Index.vue";
 
-import PostComponent from "@/components/PostComponent.vue";
-app.component('post-component', PostComponent);
+app.component('Index', Index);
+app.use(router)
+app.use(store)
 
 /**
  * The following block of code may be used to automatically register your
